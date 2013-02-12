@@ -4,12 +4,12 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-user1:
-    user: Sam
-    password: Ahn
-    count: 1
-    created_at: <%=1.month.ago.to_s(:db)%>
-    updated_at: <%=1.month.ago.to_s(:db)%>
+# user1:
+    # user: Sam
+    # password: Ahn
+    # count: 1
+    # created_at: <%=1.month.ago.to_s(:db)%>
+    # updated_at: <%=1.month.ago.to_s(:db)%>
 
 # column: value
 #

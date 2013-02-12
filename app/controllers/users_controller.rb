@@ -35,7 +35,11 @@ class UsersController < ApplicationController
     end
     
     def unittests
-        render :json => {:totalTests => 10, :nrFailed => 0, :output => "Success"}
+        system('sh unittests.sh > testoutput.txt')
+        file = File.open('testoutput.txt','r')
+        content = file.read
+        total = Integer(content.match("[\n]{1}[0-9]+[\s]{1}[\b${tests}\b]{5}")[0].match("[0-9]+")[0])
+        render :json => {:totalTests => total, :nrFailed => 0, :output => content}
     end
 end
     

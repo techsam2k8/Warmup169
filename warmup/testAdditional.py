@@ -18,7 +18,7 @@ class TestAddEmptyUser(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testAdd2(self):
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : '', 'password' : 'password'} )
         self.assertResponse(respData, count = None, errCode = testLib.RestTestCase.ERR_BAD_USERNAME)
 
@@ -33,7 +33,7 @@ class TestAddLongUser(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testAdd3(self):
         user = ''
         for num in range(130):
             user += 'A'
@@ -51,7 +51,7 @@ class TestAddLongPassword(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testAdd4(self):
         password = ''
         for num in range(130):
             password += 'A'
@@ -69,7 +69,7 @@ class TestAddUserExists(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testAdd5(self):
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : 'user', 'password' : 'password'} )
         
         self.assertResponse(respData, count = 1) 
@@ -89,7 +89,7 @@ class TestAddTwoUsers(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testAdd6(self):
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : 'user', 'password' : 'password'} )
         self.assertResponse(respData, count = 1) 
 
@@ -108,7 +108,7 @@ class TestLoginBadCred(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testLogin1(self):
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : 'user', 'password' : 'password'} )
         self.assertResponse(respData, count = 1) 
 
@@ -129,7 +129,7 @@ class TestLoginUpdateCount(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testLogin2(self):
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : 'user', 'password' : 'password'} )
         self.assertResponse(respData, count = 1) 
 
@@ -152,7 +152,7 @@ class TestReset(testLib.RestTestCase):
             expected['count']  = count
         self.assertDictEqual(expected, respData)
 
-    def testAdd1(self):
+    def testLogin3(self):
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : 'user', 'password' : 'password'} )
         self.assertResponse(respData, count = 1) 
 
