@@ -4,6 +4,6 @@ Run options:
 
 .
 
-Finished tests in 0.110006s, 9.0904 tests/s, 9.0904 assertions/s.
+Finished tests in 0.099006s, 10.1004 tests/s, 10.1004 assertions/s.
 
 1 tests, 1 assertions, 0 failures, 0 errors, 0 skips

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rake test:units
+bundle exec rake test:units
