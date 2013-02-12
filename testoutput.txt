@@ -2,8 +2,8 @@ Run options:
 
 # Running tests:
 
-.
+....
 
-Finished tests in 0.099006s, 10.1004 tests/s, 10.1004 assertions/s.
+Finished tests in 0.099005s, 40.4020 tests/s, 40.4020 assertions/s.
 
-1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+4 tests, 4 assertions, 0 failures, 0 errors, 0 skips

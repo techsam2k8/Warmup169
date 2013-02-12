@@ -35,11 +35,14 @@ class UsersController < ApplicationController
     end
     
     def unittests
-        system('sh unittests.sh > testoutput.txt')
+        system('config:add RACK_ENV=testing')
+        system('ruby -Itest test/unit/users_test.rb > testoutput.txt')
+        system('config:add RACK_ENV=production')
         file = File.open('testoutput.txt','r')
         content = file.read
         total = Integer(content.match("[\n]{1}[0-9]+[\s]{1}[\b${tests}\b]{5}")[0].match("[0-9]+")[0])
-        render :json => {:totalTests => total, :nrFailed => 0, :output => content}
+        fail = Integer(content.match("[0-9]+[\s]{1}[\b${failures}\b]{8}")[0].match("[0-9]+")[0])
+        render :json => {:totalTests => total, :nrFailed => fail, :output => content}
     end
 end
     
