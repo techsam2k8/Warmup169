@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "should get client" do
+    get :client
+    assert_response :success
+  end
+
 end

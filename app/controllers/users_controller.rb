@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    def client
+    end
     
     def login
         user = params[:user]
@@ -45,4 +47,3 @@ class UsersController < ApplicationController
         render :json => {:totalTests => total, :nrFailed => fail, :output => content}
     end
 end
-    

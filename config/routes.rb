@@ -1,4 +1,5 @@
 LoginCounter::Application.routes.draw do
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -6,6 +7,10 @@ LoginCounter::Application.routes.draw do
   post "users/add" => "users#add"
   post "TESTAPI/resetFixture" => "users#reset"
   post "TESTAPI/unitTests" => "users#unittests"
+  match "/client.html" => redirect('/client.html')
+  root :to => "users#client"
+  #get "users/client"
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
