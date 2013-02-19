@@ -1,5 +1,6 @@
 <html>
 <head>
+<!-- used the provided css template to make it look simple like the specs outlined. -->
 <link rel="stylesheet" type="text/css" href="client.css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
@@ -13,8 +14,8 @@
                 Username: <input id="main-username" type="text" name="username"><br>
                 Password: <input id="main-password" type="password" name="password"><br>
                 <br>
-                <input id="login-button" type="submit" value="Login">
-                <input id="add-button" type="submit" value="Add User">
+                <input id="login-button" type="button" value="Login">
+                <input id="add-button" type="button" value="Add User">
             </form>
         </center>
     </div>
@@ -24,7 +25,7 @@
         <div id="welcome-message" class="messagebox"></div>
         <center>
             <form>
-                <input type="submit" id="logout-button" value="Logout">
+                <input  id="logout-button" type="button" value="Logout">
             </form>
         </center>
     </div>
@@ -41,20 +42,20 @@ ERR_BAD_PASSWORD = -4;
 
 /* The page tells the main page to appear when the page is ready. */
 $(document).ready(function() {
-   show_main_page();
- });
+    show_main_page();
+});
 
 /* Copied the functions from the client.html.
    Shows the main page with the default message if the param is empty. */
 function show_main_page(message) {
-  if(!message) {
-    message = "Please enter your credentials below";
-  }
-  $('#welcome-page').hide();
-  $('#main-username').val("");
-  $('#main-password').val("");
-  $('#main-message').html(message);
-  $('#main-page').show();
+    if(!message) {
+        message = "Please enter your credentials below";
+    }
+    $('#welcome-page').hide();
+    $('#main-username').val("");
+    $('#main-password').val("");
+    $('#main-message').html(message);
+    $('#main-page').show();
 }
 
 /* Shows the welcome page when successfully logged in. */
@@ -64,66 +65,61 @@ function show_welcome_page(user, count) {
    $('#welcome-message').html("Welcome " + user + ".<br>You have logged in " + count + " times.");
 }
 
+/* Shows the welcome page if the login was successul.
+   Otherwise, the main page with an error message will appear. */
 $('#login-button').click(function() {
-   username = $('#main-username').val()
-   password = $('#main-password').val()
-   json_request("/users/login", {user: username, password: password }, 
-                                function(data) {
-                                    if (data.errCode == 1) {
-                                        show_welcome_page(username, data.count);
-                                    } else {
-                                        show_main_page(get_message_for_errcode(data.errCode));
-                                    }
-                                },
-                                function(error) {
-                                    alert('ERROR!!!');
-                                });
-
-   return false;
+    return genericClick('login', $('#main-username').val(), $('#main-password').val());   
 });
 
 /* Shows the welcome page if the user is successfully added. */
 $('#add-button').click(function() {
-   username = $('#main-username').val()
-   password = $('#main-password').val()
-   json_request("/users/add", {user: username, password: password },
-                                function(data) {
-                                    if (data.errCode == 1) {
-                                        show_welcome_page(username, data.count);
-                                    } else {
-                                        show_main_page(get_message_for_errcode(data.errCode));
-                                    }
-                                },
-                                function(error) {
-                                    alert('ERROR!!!');
-                                });
-   return false;
+    return genericClick('add', $('#main-username').val(), $('#main-password').val());
 });
+
+/* runs an ajax request based on whether the click was login or add. */
+function genericClick(id, user, password) {
+    if (id == 'login') {
+        url = "/users/login";
+    } else if (id == 'add') {
+        url = "/users/add";
+    } else {
+        url = "failure";
+    }
+    if (url != "failure") {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify({user: user, password: password}),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+                if (data.errCode == 1) {
+                    show_welcome_page(user, data.count);
+                } else {
+                    show_main_page(errmessage(data.errCode));
+                }
+            },
+            failure: function(error) {
+                alert('ERROR!!!');
+            }
+        });
+    } else {
+        alert('ERROR!!!!');
+    }
+    return false;
+}
 
 /* Logs the user back to the main screen. */
 $('#logout-button').click(function() {
-  show_main_page();
-  return false;
+    show_main_page();
+    return false;
 });
 
-/* Sends json request via post to a URL*/
-function json_request(page, dict, success, failure) {
-    $.ajax({
-        type: 'POST',
-        url: page,
-        data: JSON.stringify(dict),
-        contentType: "application/json",
-        dataType: "json",
-        success: success,
-        failure: failure
-    });
-}
-
 /* "Invalid username and password combination. Please try again. " (ERR_BAD_CREDENTIALS)
-       "The user name should be non-empty and at most 128 characters long. Please try again." (ERR_BAD_USERNAME)
-       "This user name already exists. Please try again." (ERR_USER_EXISTS)
-       "The password should be at most 128 characters long. Please try again." (ERR_BAD_PASSWORD) */
-function get_message_for_errcode(code) {
+   "The user name should be non-empty and at most 128 characters long. Please try again." (ERR_BAD_USERNAME)
+   "This user name already exists. Please try again." (ERR_USER_EXISTS)
+   "The password should be at most 128 characters long. Please try again." (ERR_BAD_PASSWORD) */
+function errmessage(code) {
     if(code == ERR_BAD_CREDENTIALS) {
         return ("Invalid username and password combination. Please try again. ");
     } else if(code == ERR_USER_EXISTS) {
@@ -134,7 +130,7 @@ function get_message_for_errcode(code) {
         return ("The password should be at most 128 characters long. Please try again.");
     } else {
         return ("Unknown error occured: " + code);
-   }
+    }
 }
 
 </script>
